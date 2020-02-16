@@ -120,10 +120,20 @@ class LoadGame extends Phaser.Scene {
 		this.anims.create({
 			key: "ghost_anim_upset",
 			frames: this.anims.generateFrameNumbers("ghost", {
-				start: 0,
-				end: 1
+				start: 1,
+				end: 3
 			}),
-			frameRate: 1,
+			frameRate: 2,
+			repeat: -1
+		});
+
+        this.anims.create({
+			key: "ghost_anim_happy",
+			frames: this.anims.generateFrameNumbers("ghost", {
+				start: 3,
+				end: 4
+			}),
+			frameRate: 2,
 			repeat: -1
 		});
 

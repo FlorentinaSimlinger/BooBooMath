@@ -16,24 +16,22 @@ class PlayGame extends Phaser.Scene {
         }, this);
 
 		this.score = Phaser.Math.Between(0, 20);
-		this.n1 = 0;
-		this.n2 = 0;
+		this.n1 = "?";
+		this.n2 = "?";
 		this.op = "";
 		this.result = 0;
 
-		this.operators = ["plus", "minus", "multiplies", "divides"];
+        this.n1v = 0;
+        this.n2v = 0;
 
-		//this.star = this.add.image(config.width/2, config.height/2, "star");
+
+        //this.scoreLabel = this.add.bitmapText(20, 20,"pixelFont", "Help me solve this:   " + this.score + " = " + this.n1 + " + " + this.n2, 40);
+
+		//this.operators = ["plus", "minus", "multiplies", "divides"];
 
 
-		this.ghost = this.add.sprite(75, 420, "ghost");
-		this.ghost.play("ghost_anim_upset");
-
-		// this.ship1.setInteractive();
-		// this.ship2.setInteractive();
-		// this.ship3.setInteractive();
-
-		//this.input.on('gameobjectdown', this.destroyShip, this);
+		//this.ghost = this.add.sprite(75, 420, "ghost");
+//		this.ghost.play("ghost_anim_upset");
 
 		this.placeNumbers();
 
@@ -91,10 +89,16 @@ class PlayGame extends Phaser.Scene {
 		var nine = this.physics.add.sprite(30, 34, "nine");
 		var zero = this.physics.add.sprite(30, 34, "zero");
 
-		var plus = this.physics.add.sprite(30, 30, "plus");
-		var minus = this.physics.add.sprite(30, 30, "minus");
-		var multiplies = this.physics.add.sprite(30, 30, "multiplies");
-		var divides = this.physics.add.sprite(30, 30, "divides");
+        one.numberValue = 1;
+        two.numberValue = 2;
+        three.numberValue = 3;
+        four.numberValue = 4;
+        five.numberValue = 5;
+        six.numberValue = 6;
+        seven.numberValue = 7;
+        eight.numberValue = 8;
+        nine.numberValue = 9;
+        zero.numberValue = 0;
 
 		this.numbers.add(one);
 		this.numbers.add(two);
@@ -106,11 +110,6 @@ class PlayGame extends Phaser.Scene {
 		this.numbers.add(eight);
 		this.numbers.add(nine);
 		this.numbers.add(zero);
-
-		this.numbers.add(plus);
-		this.numbers.add(minus);
-		this.numbers.add(multiplies);
-		this.numbers.add(divides);
 
 		var num_sca = 0.75;
 
@@ -125,11 +124,6 @@ class PlayGame extends Phaser.Scene {
 		eight.setScale(num_sca);
 		nine.setScale(num_sca);
 
-		// plus.setScale(num_sca);
-		// minus.setScale(num_sca);
-		// multiplies.setScale(num_sca);
-		// divides.setScale(num_sca);
-
 		one.setRandomPosition(50,50, config.width-50, config.height-100);
 		two.setRandomPosition(50,50, config.width-50, config.height-100);
 		three.setRandomPosition(50,50, config.width-50, config.height-100);
@@ -140,69 +134,22 @@ class PlayGame extends Phaser.Scene {
 		eight.setRandomPosition(50,50,config.width-50, config.height-100);
 		nine.setRandomPosition(50,50, config.width-50, config.height-100);
 		zero.setRandomPosition(50,50, config.width-50, config.height-100);
-
-		plus.setRandomPosition(50,50, config.width-50, config.height-100);
-		minus.setRandomPosition(50,50, config.width-50, config.height-100);
-		multiplies.setRandomPosition(50,50, config.width-50, config.height-100);
-		divides.setRandomPosition(50,50, config.width-50, config.height-100);
 	}
 
 	pickNumbers(player, number) {
 		number.disableBody(true, true);
-		if (this.operators.includes(number.key)) {
-			this.op = this.getValue(number);
-			this.updateResult();
-		} else {
-			this.n1 = this.getValue(number);
-			this.updateResult();
-			this.n2 = this.n1;
-		}
-	}
+        console.log("Number.numberValue = " + number.numberValue);
+        this.n1v = number.numberValue;
+        this.updateResult();
+        this.n2v = this.n1v;
 
-	getValue(number) {
-		if (number.key == "one") {
-			return 1;
-		} else if (number.key == "two") {
-			return 2;
-		} else if (number.key == "three") {
-			return 3;
-		} else if (number.key == "four") {
-			return 4;
-		} else if (number.key == "five") {
-			return 5;
-		} else if (number.key == "six") {
-			return 6;
-		} else if (number.key == "seven") {
-			return 7;
-		} else if (number.key == "eight") {
-			return 8;
-		} else if (number.key == "nine") {
-			return 9;
-		} else if (number.key == "zero") {
-			return 0;
-		} //else {
-
-		//}
-
-		console.log(number.key);
 	}
 
 	updateResult() {
-		if (this.op == "") {
-			this.result = this.n1;
-		} else {
-			if (this.op == "plus") {
-				this.result = this.result + this.n1;
-			} else if (this.op == "minus") {
-				this.result = this.result - this.n1;
-			} else if (this.op == "multiplies") {
-				this.result = this.result * this.n1;
-			} else if (this.op == "divides") {
-				this.result = this.result / this.n1;
-			}
-		}
+		this.result = this.n1v + this.result;
 		console.log(this.score);
-		console.log(this.n1);
+		console.log(this.n1v);
+        console.log(this.n2v);
 		console.log(this.result);
 	}
 
@@ -239,9 +186,19 @@ class PlayGame extends Phaser.Scene {
 
 		this.movePlayerManager();
 
-		if(Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-			this.placeNumbers();
+        if (this.result == this.score) {
+            //this.scoreLabel = this.add.bitmapText(50, 70,"pixelFont", "You solved it! I got " + this.score + " now!", 40);
+            this.add.text(50, 70, "You solved it! I got " + this.score + " now!");
+            this.ghost = this.add.sprite(75, 420, "ghost");
+            this.ghost.play("ghost_anim_happy");
+            
+        } else {
+            //this.scoreLabel = this.add.bitmapText(20, 20,"pixelFont", "Help me solve this:   " + this.score + " = " + this.n1 + " + " + this.n2, 40);
+            this.add.text(20, 20,"Help me solve this:   " + this.score + " = " + this.n1 + " + " + this.n2);
+		    this.ghost = this.add.sprite(75, 420, "ghost");
+            this.ghost.play("ghost_anim_upset");
 
+        }
        }
 	}
 
