@@ -6,6 +6,7 @@ class LoadGame extends Phaser.Scene {
 	preload() {
 		this.load.image("background", "assets/images/space_background_resized.png");
 		this.load.image("star", "assets/images/star.png");
+        this.load.audio("music",['assets/audio/funmusic.wav']);
 		//this.load.image("asteroid", "assets/images/asteroid.png");
 
 		this.load.spritesheet("explosion", "assets/images/spritesheets/explosion.png", {

@@ -7,6 +7,13 @@ class PlayGame extends Phaser.Scene {
 		this.background = this.add.tileSprite(0, 100, config.width, config.height-50, "background");
 		this.add.text(575, 25, "Playing game...");
 		this.background.setOrigin(0,0);
+        this.soundFX = this.sound.add('music', {loop: 'true'});
+        this.soundFX.play();
+
+        this.input.keyboard.on("keydown_P", function(e){
+        if(this.soundFX.isPlaying) this.soundFX.pause();
+        else this.soundFX.resume();
+        }, this);
 
 		this.score = Phaser.Math.Between(0, 20);
 		this.n1 = 0;
