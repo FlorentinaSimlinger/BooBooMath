@@ -7,17 +7,12 @@ class LoadGame extends Phaser.Scene {
 		this.load.image("background", "assets/images/space_background_resized.png");
 		this.load.image("star", "assets/images/star.png");
         this.load.audio("music",['assets/audio/funmusic.wav']);
-		//this.load.image("asteroid", "assets/images/asteroid.png");
 
 		this.load.spritesheet("explosion", "assets/images/spritesheets/explosion.png", {
 			frameWidth: 16,
 			frameHeight: 16
 		});
 
-		// this.load.spritesheet("asteroid", "assets/images/asteriod.png", {
-		// 	frameWidth: 16,
-		// 	frameHeight: 16
-		// });
 
 		this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
 
@@ -94,9 +89,16 @@ class LoadGame extends Phaser.Scene {
 	}
 
 	create() {
-		//this.add.text(20, 20, "Loading game...");
-		this.scene.start("playGame");
-		this.scoreLabel = this.add.bitmapText(20, 20,"pixelFont", "Help me solve this: ", 40);
+        this.background = this.add.tileSprite(0, 100, config.width, config.height-50, "background");
+        this.background.setOrigin(0,0);
+        this.text = this.add.text(200, 200, "Welcome to BooBoo Math", {font:"40px Impact"});
+        this.text = this.add.text(200, 300, "Hit Enter", {font:"40px Impact"});
+        this.input.keyboard.on('keydown', function(event) {
+            if(event.key == 'Enter') {
+                this.scene.start("PlayGame");
+            }
+        }, this);
+
 
 		this.anims.create({
 			key: "explode",

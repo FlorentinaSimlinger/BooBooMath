@@ -1,6 +1,6 @@
 class PlayGame extends Phaser.Scene {
 	constructor() {
-		super("playGame");
+		super("PlayGame");
 	}
 
 	create() {
@@ -67,8 +67,14 @@ class PlayGame extends Phaser.Scene {
 		//this.physics.add.overlap(this.pacman, this.asteriods, this.asteriods, null, this);
 		this.physics.add.overlap(this.pacman, this.numbers, this.pickNumbers, null, this);
 
+//        this.input.keyboard.on('keydown', function(event) {
+//            if(event.key == 'Enter') {
+//                this.soundFX.pause();
+//                this.scene.start("QuitGame");
+//            }
+    }
 
-	}
+
 
 	placeNumbers() {
 
@@ -236,7 +242,7 @@ class PlayGame extends Phaser.Scene {
 		if(Phaser.Input.Keyboard.JustDown(this.spacebar)) {
 			this.placeNumbers();
 
-		}
+       }
 	}
 
 	movePlayerManager() {
