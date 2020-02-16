@@ -2,6 +2,10 @@ var gameSettings = {
 	playerSpeed: 100,
 }
 
+
+// test commit
+
+
 var config = {
 	type: Phaser.auto,
 	width: 750,
