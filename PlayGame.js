@@ -1,12 +1,19 @@
 class PlayGame extends Phaser.Scene {
 	constructor() {
-		super("playGame");
+		super("PlayGame");
 	}
 
 	create() {
 		this.background = this.add.tileSprite(0, 100, config.width, config.height-50, "background");
 		this.add.text(575, 25, "Playing game...");
 		this.background.setOrigin(0,0);
+        this.soundFX = this.sound.add('music', {loop: 'true'});
+        this.soundFX.play();
+
+        this.input.keyboard.on("keydown_P", function(e){
+        if(this.soundFX.isPlaying) this.soundFX.pause();
+        else this.soundFX.resume();
+        }, this);
 
 		this.score = Phaser.Math.Between(0, 20);
 		this.n1 = "?";
@@ -58,8 +65,14 @@ class PlayGame extends Phaser.Scene {
 		//this.physics.add.overlap(this.pacman, this.asteriods, this.asteriods, null, this);
 		this.physics.add.overlap(this.pacman, this.numbers, this.pickNumbers, null, this);
 
+//        this.input.keyboard.on('keydown', function(event) {
+//            if(event.key == 'Enter') {
+//                this.soundFX.pause();
+//                this.scene.start("QuitGame");
+//            }
+    }
 
-	}
+
 
 	placeNumbers() {
 
@@ -186,7 +199,7 @@ class PlayGame extends Phaser.Scene {
             this.ghost.play("ghost_anim_upset");
 
         }
-
+       }
 	}
 
 	movePlayerManager() {
