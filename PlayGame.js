@@ -174,11 +174,14 @@ class PlayGame extends Phaser.Scene {
 		this.movePlayerManager();
 
         if (this.result == this.score) {
-            this.scoreLabel = this.add.bitmapText(50, 70,"pixelFont", "You solved it! I got " + this.score + " now!", 40);
+            //this.scoreLabel = this.add.bitmapText(50, 70,"pixelFont", "You solved it! I got " + this.score + " now!", 40);
+            this.add.text(50, 70, "You solved it! I got " + this.score + " now!");
             this.ghost = this.add.sprite(75, 420, "ghost");
             this.ghost.play("ghost_anim_happy");
+            
         } else {
-            this.scoreLabel = this.add.bitmapText(20, 20,"pixelFont", "Help me solve this:   " + this.score + " = " + this.n1 + " + " + this.n2, 40);
+            //this.scoreLabel = this.add.bitmapText(20, 20,"pixelFont", "Help me solve this:   " + this.score + " = " + this.n1 + " + " + this.n2, 40);
+            this.add.text(20, 20,"Help me solve this:   " + this.score + " = " + this.n1 + " + " + this.n2);
 		    this.ghost = this.add.sprite(75, 420, "ghost");
             this.ghost.play("ghost_anim_upset");
 
