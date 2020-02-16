@@ -7,9 +7,16 @@ class PlayGame extends Phaser.Scene {
 		this.background = this.add.tileSprite(0, 100, config.width, config.height-50, "background");
 		this.add.text(575, 25, "Playing game...");
 		this.background.setOrigin(0,0);
-		this.scoreLabel = this.add.bitmapText(20, 20,"pixelFont", "Help me solve this: ", 40);
 
-		this.star = this.add.image(config.width/2, config.height/2, "star");
+		this.score = Phaser.Math.Between(0, 20);
+		this.n1 = 0;
+		this.n2 = 0;
+		this.op = "";
+		this.result = 0;
+
+		this.operators = ["plus", "minus", "multiplies", "divides"];
+
+		//this.star = this.add.image(config.width/2, config.height/2, "star");
 
 
 		this.ghost = this.add.sprite(75, 420, "ghost");
@@ -32,19 +39,17 @@ class PlayGame extends Phaser.Scene {
 			asteriod.setRandomPosition(0,0, config.width, config.height);
 
 			//asteriod.play("asteriod_rotate");
-			
+
 			asteriod.setVelocity(100,100);
 			asteriod.setCollideWorldBounds(true);
 			asteriod.setBounce(1);
 		}
 
-
-
 		this.pacman = this.physics.add.sprite(config.width/2, config.height/2, "pacman");
 		this.pacman.play("pacman_right");
 
 
-		//keyboard inputs 
+		//keyboard inputs
 		this.cursorKeys = this.input.keyboard.createCursorKeys();
 		this.pacman.setCollideWorldBounds(true);
 
@@ -55,7 +60,6 @@ class PlayGame extends Phaser.Scene {
 		//this.physics.add.overlap(this.pacman, this.asteriods, this.asteriods, null, this);
 		this.physics.add.overlap(this.pacman, this.numbers, this.pickNumbers, null, this);
 
-		
 
 	}
 
@@ -131,7 +135,62 @@ class PlayGame extends Phaser.Scene {
 	}
 
 	pickNumbers(player, number) {
-		number.disableBody(true, true); 
+		number.disableBody(true, true);
+		if (this.operators.includes(number.key)) {
+			this.op = this.getValue(number);
+			this.updateResult();
+		} else {
+			this.n1 = this.getValue(number);
+			this.updateResult();
+			this.n2 = this.n1;
+		}
+	}
+
+	getValue(number) {
+		if (number.key == "one") {
+			return 1;
+		} else if (number.key == "two") {
+			return 2;
+		} else if (number.key == "three") {
+			return 3;
+		} else if (number.key == "four") {
+			return 4;
+		} else if (number.key == "five") {
+			return 5;
+		} else if (number.key == "six") {
+			return 6;
+		} else if (number.key == "seven") {
+			return 7;
+		} else if (number.key == "eight") {
+			return 8;
+		} else if (number.key == "nine") {
+			return 9;
+		} else if (number.key == "zero") {
+			return 0;
+		} //else {
+
+		//}
+
+		console.log(number.key);
+	}
+
+	updateResult() {
+		if (this.op == "") {
+			this.result = this.n1;
+		} else {
+			if (this.op == "plus") {
+				this.result = this.result + this.n1;
+			} else if (this.op == "minus") {
+				this.result = this.result - this.n1;
+			} else if (this.op == "multiplies") {
+				this.result = this.result * this.n1;
+			} else if (this.op == "divides") {
+				this.result = this.result / this.n1;
+			}
+		}
+		console.log(this.score);
+		console.log(this.n1);
+		console.log(this.result);
 	}
 
 	moveStar(star, speed) {
@@ -153,13 +212,14 @@ class PlayGame extends Phaser.Scene {
 		ghost.x += (random * speed);
 	}
 
-	destroyShip(pointer, gameObject) {
-		gameobjectdown.setTexture("explosion");
-		gameObject.play("explode");
-	}
+
+	// destroyShip(pointer, gameObject) {
+	// 	gameobjectdown.setTexture("explosion");
+	// 	gameObject.play("explode");
+	// }
 
 	update() {
-		this.moveStar(this.star,2);
+		//this.moveStar(this.star,2);
 
 		//this.moveGhost(this.ghost, 0.1);
 		//this.background.tilePositionY += 0.5;
@@ -167,7 +227,8 @@ class PlayGame extends Phaser.Scene {
 		this.movePlayerManager();
 
 		if(Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-			//this.shootBeam();
+			this.placeNumbers();
+
 		}
 	}
 

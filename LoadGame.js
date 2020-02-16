@@ -22,12 +22,12 @@ class LoadGame extends Phaser.Scene {
 
 		// new edits:
 		this.load.spritesheet("ghost", "assets/images/spritesheets/ghost.png", {
-			frameWidth: 64, 
+			frameWidth: 64,
 			frameHeight: 64
 		});
 
 		this.load.spritesheet("pacman", "assets/images/source/pacman_2.png", {
-			frameWidth: 32, 
+			frameWidth: 32,
 			frameHeight: 32
 		});
 
@@ -95,6 +95,7 @@ class LoadGame extends Phaser.Scene {
 	create() {
 		//this.add.text(20, 20, "Loading game...");
 		this.scene.start("playGame");
+		this.scoreLabel = this.add.bitmapText(20, 20,"pixelFont", "Help me solve this: ", 40);
 
 		this.anims.create({
 			key: "explode",
@@ -108,7 +109,7 @@ class LoadGame extends Phaser.Scene {
 		this.anims.create({
 			key: "asteriod_roate",
 			frames: this.anims.generateFrameNumbers("asteroid"),
-			frameRate: 20, 
+			frameRate: 20,
 			repeat: -1
 		});
 
@@ -163,5 +164,5 @@ class LoadGame extends Phaser.Scene {
 			repeat: -1
 		});
 
-	}	
+	}
 }

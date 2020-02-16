@@ -4,7 +4,7 @@ var gameSettings = {
 
 var config = {
 	type: Phaser.auto,
-	width: 750, 
+	width: 750,
 	height: 500,
 	scene:[LoadGame, PlayGame],
 	pixelArt: true,
